@@ -6,6 +6,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +27,13 @@ public class GoogleQuery
 		if(index!=-1) addedKeyword.remove(index);
 		else addedKeyword.add(0, searchKeyword);
 		this.searchKeyword = String.join("+", addedKeyword);
-		this.url = "http://www.google.com/search?q="+this.searchKeyword+"&oe=utf8&num=20";
+		try {
+			this.searchKeyword = URLEncoder.encode(this.searchKeyword, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.url = "http://www.google.com/search?q="+this.searchKeyword+"&oe=utf8&num=20";		
 		System.out.println(this.url);
 	}
 	
